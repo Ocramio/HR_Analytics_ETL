@@ -1,0 +1,5 @@
+.venv
+Terraform/plan.out
+Terraform/.terraform
+Terraform/.terraform.lock.hcl
+terraform.tfstate

@@ -1,5 +1,5 @@
 Category,Level,Pattern,Example,Description
-Storage,GCS Bucket,[project]-[env]-[region]-data-lake,hr-analytics-prod-us-data-lake,Global storage container name
+Storage,GCS Bucket,[project]-data-lake,hr-analytics-prod-us-data-lake,Global storage container name
 Storage,GCS Folder,[layer]/[subject_area]/,silver/payroll_history/,Hierarchical folder structure
 Database,BQ Dataset,[layer]_[source_system],refined_hr_system,Logical container in BigQuery
 Database,BQ Table,tbl_[subject_name],tbl_employee_status,Physical storage table (Silver)
@@ -12,5 +12,5 @@ Column,Boolean,is_[status]_flg,is_active_flg,True/False indicators (Technical)
 Column,Measure,[subject]_amt,salary_amt,Currency or decimal values
 Column,Measure,[subject]_qty,headcount_qty,Whole number counts/quantities
 Column,Measure,[subject]_pct,turnover_pct,Percentages or ratios
-Column,Audit,etl_inserted_at,2/25/2026 14:00,System column for tracking load time
+Column,Audit,load_date,2/25/2026 14:00,System column for tracking load time
 Column,Audit,source_system_nm,Workday,System column for tracking data origin
