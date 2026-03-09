@@ -1,16 +1,19 @@
-Category,Level,Pattern,Example,Description
-Storage,GCS Bucket,[project]-data-lake,hr-analytics-prod-us-data-lake,Global storage container name
-Storage,GCS Folder,[layer]/[subject_area]/,silver/payroll_history/,Hierarchical folder structure
-Database,BQ Dataset,[layer]_[source_system],refined_hr_system,Logical container in BigQuery
-Database,BQ Table,tbl_[subject_name],tbl_employee_status,Physical storage table (Silver)
-Database,BQ View,vw_[subject_name],vw_attrition_report,Logical virtual table (Gold)
-Column,Identifier,[subject]_id,employee_id,Unique keys (Technical)
-Column,Identifier,[Subject] ID,Employee ID,Unique keys (Business/Gold)
-Column,Date,[subject]_date,hire_date,Calendar dates (YYYY-MM-DD)
-Column,Timestamp,[subject]_at,created_at,Precise time with timezone
-Column,Boolean,is_[status]_flg,is_active_flg,True/False indicators (Technical)
-Column,Measure,[subject]_amt,salary_amt,Currency or decimal values
-Column,Measure,[subject]_qty,headcount_qty,Whole number counts/quantities
-Column,Measure,[subject]_pct,turnover_pct,Percentages or ratios
-Column,Audit,load_date,2/25/2026 14:00,System column for tracking load time
-Column,Audit,source_system_nm,Workday,System column for tracking data origin
+Category,Description,Pattern,Example
+Storage,GCS Bucket,[project]-data-lake,hr-analytics-prod-us-data-lake
+Storage,GCS Folder,[layer]/[subject_area]/,silver/payroll_history/
+Database,BQ Dataset,[layer]_[source_system],refined_hr_system
+Database,BQ Table,tbl_[subject_name],tbl_employee_status
+Database,BQ View,vw_[subject_name],vw_attrition_report
+Column,Primary Keys,id_{entity},id_employee
+Column,Foreign Keys,fk_{entity},fk_department
+Column,Dates,dt_{event},dt_hired
+Column,Timestamps,ts_{event},ts_created
+Column,Flags/Booleans,is_{status},is_active
+Column,Monetary,amt_{item},amt_salary
+Column,Counts/Qty,cnt_{item},cnt_headcount
+Column,Percentages,pct_{item},pct_turnover
+Column,Physical Distance,dist_{item}_{metric},dist_from_home_km
+Column,Categorical,cat_{item},cat_education_field
+Column,Descriptive,desc_{item},desc_job_role
+Column,Level,lvl_{item},lvl_education
+Column,Audit/System,sys_{action},sys_ingestion_timestamp

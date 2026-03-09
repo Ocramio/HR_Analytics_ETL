@@ -27,8 +27,8 @@ if ($LASTEXITCODE -eq 0) {
     gcloud storage cp ../HR_Analytics_data/*.csv gs://hr-analytics-data-lake/landing/
     
     # 4. Trigger the workflow
-    Write-Host "Starting Dataproc Workflow..." -ForegroundColor Cyan
-    gcloud dataproc workflow-templates instantiate hr-analytics-dataproc-workflow_template --region=southamerica-east1
+    # Write-Host "Starting Dataproc Workflow..." -ForegroundColor Cyan
+    # gcloud dataproc workflow-templates instantiate hr-analytics-dataproc-workflow_template --region=us-central1
 } else {
     Write-Error "Terraform failed. Skipping data upload and workflow." -ForegroundColor Red
 }

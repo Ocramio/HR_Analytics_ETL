@@ -18,7 +18,7 @@ In the `setup.sh` file.
 
 **Bronze Layer:**
 
-Data is converted to Parquet format to optimize storage and read performance, and some metadata added (load_date, source). No transformations occur here to preserve original data state.
+Data is converted to Parquet format (with all columns in string type) to optimize storage and read performance, and some metadata added (load_date, source). No transformations occur here to preserve original data state.
 
 **Silver Layer:**
  

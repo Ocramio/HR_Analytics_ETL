@@ -1,38 +1,39 @@
-import argparse
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import lit, current_timestamp
+import utils as u 
 
-# Creating the Spark Session
-spark = SparkSession.builder.appName("bronze_layer_job").getOrCreate()
+#----------------------------------------------#
+#--------------- MAIN FUNCTION ----------------#
+#----------------------------------------------#
 
-# Parser
-parser = argparse.ArgumentParser()
-parser.add_argument("--landing_path", type=str)
-parser.add_argument("--bronze_path", type=str)
-parser.add_argument("--silver_path", type=str)
-args = parser.parse_args()
+def bronze_layer():
 
-# List of files to process
-tables = [
-    "employee_survey_data",
-    "general_data",
-    "in_time",
-    "manager_survey_data",
-    "out_time"
-]
+    # List of files to process
+    tables = [
+        "employee_survey_data",
+        "general_data",
+        "in_time",
+        "manager_survey_data",
+        "out_time"
+    ]
 
-for table in tables:
-    print(f"Processing: {table}")
-    
-    # Reading the file
-    df = spark.read.csv(f'{args.landing_path}/{table}.csv', encoding='utf-8', header=True)
-    
-    # Adding Metadata 
-    df = df.withColumn("load_date", current_timestamp()) \
-           .withColumn("source_system_nm", lit(table))
-    
-    # Writing the files into the bronze layer with .parquet extension
-    target_path = f"{args.bronze_path}/{table}"
-    df.write.mode("overwrite").parquet(target_path)
+    # Parser
+    args = u.parser()
 
-print("Bronze layer load complete!")
+    # Creating the Spark Session
+    spark = u.get_spark_session("bronze_layer_job")
+
+    for table in tables:
+        print(f"Processing: {table}")
+        
+        # Reading the file with every column as a string (inferSchema=False)
+        df = spark.read.csv(f'{args.landing_path}/{table}.csv', encoding='utf-8', header=True, inferSchema=False)
+        
+        df = (df
+              # Adding Metadata 
+              .transform(lambda df: u.add_metadata(df, args.landing_path, table))
+        )
+        
+        # Writing the files into the bronze layer with .parquet extension
+        u.writting_to_parquet(df, args.bronze_path, table)
+
+if __name__ == '__main__':
+    bronze_layer()
